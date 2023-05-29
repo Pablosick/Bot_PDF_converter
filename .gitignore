@@ -1,0 +1,23 @@
+#virtualenv
+venv
+
+#settings project
+.idea/
+
+#browser for start
+chromedriver
+
+#private information
+security
+
+#cache
+*__pycache__
+
+#options for page
+data
+
+#init
+__init__.py
+
+#private
+**/src/private
