@@ -46,7 +46,9 @@ class ConverterPDF:
                 MenuButton.BUT_MENU.value, callback_data="button2"
             )
             dimensions.add(but_menu)
-            self.bot.send_message(message.chat.id, Information.DIF_MES.value, reply_markup=dimensions)
+            self.bot.send_message(
+                message.chat.id, Information.DIF_MES.value, reply_markup=dimensions
+            )
 
         @self.bot.callback_query_handler(func=lambda callback: callback.data)
         def check_callback(callback):
@@ -136,12 +138,16 @@ class ConverterPDF:
                 message.chat.id, open(f"{self.app.current_dir}\\pdf.zip", "rb")
             )
             no_convert_files = ", ".join(self.app.get_no_convert())
-            self.bot.send_message(message.chat.id, f"❌Файлы, которые не удалось конвертировать: {no_convert_files}")
+            self.bot.send_message(
+                message.chat.id,
+                f"❌Файлы, которые не удалось конвертировать: {no_convert_files}",
+            )
             self.app.deleting_files()
             self.bot.send_message(
                 message.chat.id,
                 Information.BUTTON_BACK.value,
-                reply_markup=next_keyboard, parse_mode="HTML"
+                reply_markup=next_keyboard,
+                parse_mode="HTML",
             )
 
         self.bot.polling(none_stop=True)

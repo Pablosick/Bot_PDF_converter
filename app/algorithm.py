@@ -47,7 +47,6 @@ class Algorithm:
         self.doc_in_docx()
         self.convert_doc_files()
 
-
     def mkdir_for_file(self):
         """Метод создаем папки для файлов с расширение .doc и .docx"""
 
@@ -60,7 +59,8 @@ class Algorithm:
 
         os.replace(
             f"{self.current_dir}\\all_files\\new_archive\\{file}",
-            f"{self.current_dir}\\{name_new_dir}\\{file}")
+            f"{self.current_dir}\\{name_new_dir}\\{file}",
+        )
 
     def doc_in_docx(self):
         """Метод преобразовывает в .docx расширение.
@@ -73,8 +73,12 @@ class Algorithm:
                 pythoncom.CoInitialize()
                 if not doc_file.startswith("~"):
                     word = wc.Dispatch("Word.Application")
-                    doc = word.Documents.Open(os.path.abspath(f"{path_doc_file}\\{doc_file}"))
-                    doc.SaveAs(f"{self.current_dir}\\Folder for docx\\{doc_file[:-3]}.docx", 16)
+                    doc = word.Documents.Open(
+                        os.path.abspath(f"{path_doc_file}\\{doc_file}")
+                    )
+                    doc.SaveAs(
+                        f"{self.current_dir}\\Folder for docx\\{doc_file[:-3]}.docx", 16
+                    )
                     doc.Close()
             except:
                 continue
@@ -100,8 +104,10 @@ class Algorithm:
 
     def rename_dir(self):
         for rename_files in os.listdir(f"{self.current_dir}\\all_files"):
-            os.rename(f"{self.current_dir}\\all_files\\{rename_files}",
-                      f"{self.current_dir}\\all_files\\new_archive")
+            os.rename(
+                f"{self.current_dir}\\all_files\\{rename_files}",
+                f"{self.current_dir}\\all_files\\new_archive",
+            )
 
     def deleting_files(self):
         """Удаление файлов, с которыми была произведена работа"""
