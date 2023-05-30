@@ -122,10 +122,12 @@ class ConverterPDF:
             with open(path_archive, "wb") as new_file:
                 new_file.write(download_file)
             self.app.transformation_file(path_archive)
+            self.app.rename_dir()
             self.bot.send_message(
                 message.chat.id,
                 f"🛠Подождите, пожалуйста, идет процесс конвертации файлов архива: "
-                f" '{message.document.file_name}'...",
+                f" '{message.document.file_name}'..."
+                f"🕘Время обработки одного файла в архиве занимает 3-5 секунд",
             )
             self.app.run_processing(message.document.file_name)
             self.bot.send_message(message.chat.id, Information.RES_CONVERT_FILE.value)
@@ -135,7 +137,7 @@ class ConverterPDF:
             )
             no_convert_files = ", ".join(self.app.get_no_convert())
             self.bot.send_message(message.chat.id, f"❌Файлы, которые не удалось конвертировать: {no_convert_files}")
-            self.app.deleting_files(message.document.file_name)
+            self.app.deleting_files()
             self.bot.send_message(
                 message.chat.id,
                 Information.BUTTON_BACK.value,

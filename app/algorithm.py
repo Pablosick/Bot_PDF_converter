@@ -33,17 +33,17 @@ class Algorithm:
 
         different_files = str(zip_file[:-4])
         self.mkdir_for_file()
-        for file in os.listdir(f"{self.current_dir}\\all_files\\{different_files}"):
+        for file in os.listdir(f"{self.current_dir}\\all_files\\new_archive"):
             if file.lower().endswith(".docx") and not file.startswith("~"):
                 pythoncom.CoInitialize()
                 try:
-                    docx2pdf.convert(f"all_files\\{different_files}\\{file}", "pdf_file\\")
+                    docx2pdf.convert(f"all_files\\new_archive\\{file}", "pdf_file\\")
                 finally:
                     pythoncom.CoUninitialize()
             elif file.lower().endswith(".doc"):
-                self.mv_files(different_files, file, "Documents with 'doc' extension")
+                self.mv_files(file, "Documents with 'doc' extension")
             else:
-                self.mv_files(different_files, file, "Other")
+                self.mv_files(file, "Other")
         self.doc_in_docx()
         self.convert_doc_files()
 
@@ -55,11 +55,11 @@ class Algorithm:
         os.mkdir(f"{self.current_dir}\\Folder for docx")
         os.mkdir(f"{self.current_dir}\\Other")
 
-    def mv_files(self, name_directory, file, name_new_dir):
+    def mv_files(self, file, name_new_dir):
         """Метод перемещает файлы, которые имеют расширение отличное от .docx в отдельные папки"""
 
         os.replace(
-            f"{self.current_dir}\\all_files\\{name_directory}\\{file}",
+            f"{self.current_dir}\\all_files\\new_archive\\{file}",
             f"{self.current_dir}\\{name_new_dir}\\{file}")
 
     def doc_in_docx(self):
@@ -94,12 +94,19 @@ class Algorithm:
                 pythoncom.CoUninitialize()
 
     def get_no_convert(self):
+        """Метод возвратит наименования файлов, которые не были конвертированы"""
+
         return os.listdir(f"{self.current_dir}\\Other")
 
-    def deleting_files(self, rm_essence):
+    def rename_dir(self):
+        for rename_files in os.listdir(f"{self.current_dir}\\all_files"):
+            os.rename(f"{self.current_dir}\\all_files\\{rename_files}",
+                      f"{self.current_dir}\\all_files\\new_archive")
+
+    def deleting_files(self):
         """Удаление файлов, с которыми была произведена работа"""
 
-        shutil.rmtree(f"all_files\\{str(rm_essence[:-4])}")
+        shutil.rmtree("all_files\\new_archive")
         shutil.rmtree(f"Folder for docx")
         shutil.rmtree("Documents with 'doc' extension")
         shutil.rmtree("Other")
